@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;500;600;700;800&display=swap');
 * {
-    font-family: 'Open sans', sans-serif;
+    font-family: "Google Sans Display", Roboto, Arial, sans-serif;
 }
 
 :root {
@@ -38,6 +38,47 @@ img {
     list-style: none;
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+.title-home {
+    font-family: "Google Sans Display", Roboto, Arial, sans-serif;
+    font-size: 2.75rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 3.25rem;
+    padding-bottom: .5em;
+}
+
+.subtitle-home {
+    font-family: "Google Sans", Roboto, Arial, sans-serif;
+    font-size: 1.125rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+    color: #5f6368;
+}
+
+@media only screen and (max-width:375px) {
+    .title-home {
+        font-size: 2.2rem;
+        line-height: 3rem;
+    }
+}
+
+@media only screen and (max-width:519px) {
+    .ul-inline {
+        display: block;
+    }
+    #content-options .ul-inline li:nth-child(2) {
+        margin-top: 15px;
+    }
+    .btn-default {
+        width: 100%;
+    }
+    #content-options .ul-inline li:nth-child(1) {
+        margin: 0;
+    }
 }
 
 .btn-default {
@@ -48,7 +89,8 @@ img {
     padding: 12px;
     border: 1px solid var(--color-dafult);
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
+    font-family: "Google Sans Display", Roboto, Arial, sans-serif;
     transition: .2s ease-in-out;
 }
 
@@ -194,7 +236,8 @@ button:visited,
 .content-center {
     display: flex;
     align-items: center;
-    height: calc(100vh - 100px);
+    padding: 40px 0;
+    text-align: center;
 }
 
 .code-event {
@@ -243,5 +286,5 @@ audio {
 
 .input-hash::placeholder {
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 400;
 }
