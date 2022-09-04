@@ -8,25 +8,20 @@ var currentPeer = null
 var screenSharing = false
 const peers = {}
 
-function createRoom(code = null) {
-    if (code !== null) {
-        room_id = code;
-    } else {
-        var hash = (Math.random() + 1).toString(36).substring(7);
-        room_id = PRE + hash;
-    }
-    peer = new Peer(room_id)
+function createRoom(code) {
+    peer = new Peer(code)
     peer.on('open', (id) => {
-        document.querySelector('.code-event').append(id)
-        document.querySelector('.is_action').value = id
-        document.querySelector('.btn-init-translate').setAttribute('href', '/tradutor.html?code=' + id);
+        //document.querySelector('.is_action').value = id
+        document.getElementById('navbar_menu').style.display = 'none'
+        document.querySelector('.code_room').innerHTML = code
+        //document.querySelector('.btn-init-translate').setAttribute('href', '/tradutor.html?code=' + id);
         getUserMedia({ video: true, audio: true }, (stream) => {
             local_stream = stream;
             setLocalStream(local_stream)
         }, (err) => {
             console.log(err)
         })
-        notify("Criando evento...")
+        //notify("Criando evento...")
         showLive();
     })
     peer.on('call', (call) => {
@@ -54,7 +49,7 @@ function createRoomTranslate() {
         }, (err) => {
             console.log(err)
         })
-        notify("Criando tradução...")
+        //notify("Criando tradução...")
     })
     peer.on('call', (call) => {
         call.answer(local_stream);
@@ -97,15 +92,19 @@ function setRemoteStreamTranslate(stream) {
 
 function setRemoteStream(stream) {
 
+    document.querySelector('.show-joins').style.display = 'flex';
     let divAudios = document.getElementById("remote-video");
-    const myAudio = document.createElement('audio')
-    myAudio.srcObject = stream;
-    myAudio.muted = true
-    myAudio.controls = true
-    myAudio.addEventListener('loadedmetadata', () => {
-        myAudio.play()
+    const div = document.createElement('div');
+    div.setAttribute('class', 'col-4 pt-2 px-1');
+    const myVideo = document.createElement('video')
+    myVideo.srcObject = stream;
+    myVideo.muted = true
+    myVideo.controls = true
+    myVideo.addEventListener('loadedmetadata', () => {
+        myVideo.play()
     })
-    divAudios.append(myAudio)
+    div.append(myVideo)
+    divAudios.append(div)
 }
 
 function notify(msg) {
@@ -119,20 +118,21 @@ function notify(msg) {
 
 function showLive() {
     document.getElementById("content-options").style.display = "none";
-    document.getElementById("meet-area").style.display = "block";
+    document.getElementById("meet-area").style.display = "grid";
 }
 
 function joinRoom(code) {
     peer = new Peer()
     peer.on('open', (id) => {
-        document.querySelector('.code-event').append(code)
-        document.querySelector('.btn-init-translate').style.display = 'block'
-        document.querySelector('.info-translate').style.display = 'none'
-        document.querySelector('.btn-init-translate').setAttribute('href', '/tradutor.html?code=' + code);
+        document.getElementById('navbar_menu').style.display = 'none'
+        document.querySelector('.code_room').innerHTML = code
+        //document.querySelector('.btn-init-translate').style.display = 'block'
+        //document.querySelector('.info-translate').style.display = 'none'
+        //document.querySelector('.btn-init-translate').setAttribute('href', '/tradutor.html?code=' + code);
         getUserMedia({ video: true, audio: true }, (stream) => {
             local_stream = stream;
             //setRemoteStream(local_stream);
-            notify("Conectando-se ao evento...")
+            //notify("Conectando-se ao evento...")
             let call = peer.call(code, stream)
             var i = 0;
             call.on('stream', (stream) => {
@@ -153,11 +153,10 @@ function joinRoom(code) {
 function joinRoomTranslate(code) {
     peer = new Peer()
     peer.on('open', (id) => {
-        document.querySelector('.code-event').append(id)
         getUserMedia({ video: true, audio: true }, (stream) => {
             local_stream = stream;
             setRemoteStreamTranslate(local_stream)
-            notify("Conectando-se ao evento...")
+            //notify("Conectando-se ao evento...")
             let call = peer.call(code, stream)
             var i = 0;
             /*call.on('stream', (stream) => {

@@ -20,7 +20,7 @@
             <p class="subtitle-home">Clone do Google Meet, projeto de estudo e entendimento de arquitetura da plataforma.</p>
             <ul class="ul-inline p-0 m-0">
                 <li>
-                    <button class="btn-default" onclick="createRoom()"> Nova reunião</button>
+                    <button class="btn-default" onclick="openRoom()"> Nova reunião</button>
                 </li>
                 <li>
                     <div class="input-group">
@@ -33,29 +33,25 @@
     </div>
     <div id="meet-area" class="meet-area">
         <!-- Local Video Element-->
-        <div class="row p-0 m-0">
-            <div class="col-12 py-3 text">
-                <p class="code-event"><i class="fa-solid fa-paperclip"></i> <strong>Código do evento:</strong> </p>
-            </div>
-            <div class="col-12 text-center py-3">
-                <span class="flag-live animate-flicker"><strong>EVENTO</strong> AO VIVO</span>
-            </div>
-            <div class="col-12">
+        <div class="row p-0 m-0 h-auto">
+            <div class="col mx-2">
                 <video autoplay id="local-video"></video>
             </div>
-            <div class="col-12 text-center py-3">
-                <a class="btn-init-translate" target="_blank">Traduzir evento <i class="fa-solid fa-link"></i></a>
+            <div style="display: none;" class="col mx-2 show-joins">
+                <div id="remote-video" class="row">
+                </div>
             </div>
         </div>
-        <!-- Remote Video Element-->
-        <div class="row p-0 m-0">
-            <div class="col-12 text-center py-3">
-                <span class="flag-live animate-flicker info-translate"><strong>Tradutores</strong> na sala</span>
+        <footer class="d-flex align-items-center w-100" id="footer-page">
+            <div class="col-4 text-left px-3">
+                <p style="color:#fff;">DATA | <span class="code_room"></span></p>
             </div>
-            <div class="col-12">
-                <div id="remote-video"></div>
+            <div class="col-4 text-center justify-content-center">
+                <button type="button" class="btn btn-dark">voice</button>
+                <button type="button" class="btn btn-danger">close</button>
             </div>
-        </div>
+            <div class="col-4  text-right"></div>
+        </footer>
 
     </div>
 
@@ -71,9 +67,20 @@
             $('#navbar_menu').load('./components/header.html');
         })
 
-        var code = getUrlParameter('code');
+        function openRoom(){
+            var hash = (Math.random() + 1).toString(36).substring(7);
+            room_id = PRE + hash;
+            location.href = '?open_room='+room_id
+        }
+
+        var code = getUrlParameter('open_room');
         if (code) {
             createRoom(code)
+        }
+
+        var join = getUrlParameter('join_room')
+        if (join) {
+            joinRoom(join)
         }
     </script>
 </body>
